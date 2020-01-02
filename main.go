@@ -21,6 +21,7 @@ import (
 var murl string
 var musername string
 var mpassword string
+var mpath string
 
 func init() {
 	log.Output = "/dev/stdout"
@@ -32,9 +33,10 @@ func init() {
 	flag.StringVar(&murl, "url", "", "pfSense web url")
 	flag.StringVar(&musername, "username", "admin", "pfSense admin username")
 	flag.StringVar(&mpassword, "password", "pfsense", "pfSense admin password")
+	flag.StringVar(&mpath, "path", "", "path to backup")
 	flag.Parse()
 
-	if murl == "" ||  musername == "" || mpassword == "" {
+	if murl == "" {
 		fmt.Println("Usage of pfsense-backup-exporter:")
 		flag.PrintDefaults()
 		os.Exit(1)
@@ -135,6 +137,12 @@ func Do() {
 
 	filename = strings.ReplaceAll(filename, "attachment; filename=config-", "")
 	filename = filename[0:len(filename)-6] + ".xml"
+
+	if mpath != "" {
+		mpath = strings.TrimRight(mpath, "\\")
+		mpath = strings.TrimRight(mpath, "/")
+		filename = mpath + "/" + filename
+	}
 
 	f, err := os.Create(filename)
 	if err != nil {
