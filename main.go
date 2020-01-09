@@ -27,7 +27,7 @@ func init() {
 	log.Output = "/dev/stdout"
 	log.Level = log.INFO
 	log.OnFatal = log.ExitOnFatal
-	log.DateTimeFormat = "2006-01-02 15:04:05"
+	log.DateTimeFormat = "02-01-2006 15:04:05"
 	log.Format = "{datetime} {level:name} {message}"
 
 	flag.StringVar(&murl, "url", "", "pfSense web url")
